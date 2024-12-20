@@ -113,3 +113,17 @@ python Wifiswitcher.py > wifi_log.txt 2>&1
 
 ## Contributing
 Feel free to submit issues and enhancement requests.
+
+## Credits
+
+A huge shoutout to:
+
+- [Reddit Profile - sqrt7744](https://www.reddit.com/user/sqrt7744/) - For igniting the spark of inspiration behind this thrilling project!
+  - Original concept from Reddit discussions
+  - Source: [Reddit Reply](https://www.reddit.com/r/linux/comments/bbzm9t/automatically_switch_to_the_strongest_wifi_signal/)
+
+Your creativity has fueled our journey! 🚀
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
