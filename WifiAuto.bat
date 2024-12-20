@@ -1,9 +1,8 @@
-@echo off	
-"C:\Users\USER\AppData\Local\Programs\Python\Python39\python.exe" ""D:\Coding\Wifiswitcher.py"
+@echo off
 
+REM Run the Python script from current directory
+python ".\Wifiswitcher.py"
 
-:: Wait for 5 seconds
+REM Wait for 5 seconds
 timeout /t 5 /nobreak
-
-:: Exit after 5 seconds
 exit

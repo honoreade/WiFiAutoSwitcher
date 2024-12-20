@@ -1,4 +1,13 @@
 import subprocess
+import sys
+import logging
+
+# Add logging configuration
+logging.basicConfig(
+    filename='wifi_switcher.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 MIN_SIGNAL_STRENGTH_DIFFERENCE_FOR_SWITCHING = 5  # Minimum signal strength difference to trigger a switch
 
@@ -8,7 +17,10 @@ def run_subprocess(command):
         result = subprocess.run(command, capture_output=True, text=True, check=True)
         return result.stdout
     except subprocess.CalledProcessError as e:
-        print(f"Error running command {command}: {e}")
+        logging.error(f"Command failed: {command} - {e}")
+        return ""
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
         return ""
 
 def get_saved_profiles():
@@ -59,18 +71,6 @@ def find_saved_available_networks_with_strength():
 def switch_to_strongest_network(networks, saved_profiles, current_signal_strength):
     """Switch to the strongest saved network."""
     networks.sort(key=lambda x: x[1], reverse=True)  # Sort by signal strength, highest first
-    for ssid, signal in networks:
-        if ssid in saved_profiles and signal > current_signal_strength + MIN_SIGNAL_STRENGTH_DIFFERENCE_FOR_SWITCHING:
-            print(f"Switching to {ssid} with signal {signal}%")
-            result = subprocess.run(['netsh', 'wlan', 'connect', f'name={ssid}'], capture_output=True, text=True)
-            if result.returncode == 0:
-                print(f"Successfully switched to {ssid}")
-                return ssid
-            else:
-                print(f"Failed to switch to {ssid}: {result.stderr}")
-    print("No stronger network found.")
-    return None
-
 def main():
     """Main function to manage Wi-Fi connections."""
     current_ssid, current_signal_strength = get_current_connection()
@@ -93,3 +93,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
