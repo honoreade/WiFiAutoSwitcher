@@ -4,112 +4,52 @@
 A Python-based utility that automatically switches between saved Wi-Fi networks to maintain the strongest possible connection. The tool monitors signal strengths and switches when a significantly stronger connection is available.
 
 ## Features
-- Automatic switching to stronger Wi-Fi networks
-- Minimum signal strength difference threshold (default: 5%)
-- Support for all saved Wi-Fi profiles
-- Silent running mode via VBScript
-- Automated scheduling via Windows Task Scheduler
+- **Smart Switching**: Automatically connects to stronger saved Wi-Fi networks.
+- **Efficiency Mode**: The scheduled task is optimized to **only run when a network connection is available**, saving battery and resources when offline.
+- **Auto-Elevation**: The setup script automatically handles Administrator privileges.
+- **Configurable**: Adjustable signal strength threshold (default: 5%).
+- **Logging**: Built-in logging to `wifi_switcher.log`.
 
 ## File Structure
-- `Wifiswitcher.py` - Main Python script
-- `WifiAuto.bat` - Batch wrapper with timeout
-- `WifiAutoVB.vbs` - Silent execution script
-- `Autoschedule.bat` - Task scheduler configuration
+- `Wifiswitcher.py` - Main Python script with logic.
+- `Autoschedule.bat` - **Installer**. Creates a Windows Scheduled Task (runs every 10 mins, persistent).
+- `WifiAuto.bat` - Manual runner (console).
+- `WifiAutoVB.vbs` - Silent manual runner.
 
 ## Prerequisites
 - Python 3.9 or higher
-- Windows OS with `netsh` command support
-- Administrative privileges
+- Windows OS
+- Saved Wi-Fi profiles (the script only switches to networks you have connected to before).
 
-## Installation
+## Installation & Setup
 
-1. Create a new folder for the project:
-```bash
-mkdir WiFiAutoSwitcher
-cd WiFiAutoSwitcher
-```
+1. **Install Python**: Ensure Python is installed and added to your System PATH.
+2. **Setup the Schedule** (Recommended):
+   - Double-click `Autoschedule.bat`.
+   - Click "Yes" on the Administrator prompt.
+   - The tool is now installed! It will run every 10 minutes in the background, but **only if you are online**.
 
-2. Copy all files into this folder:
-- Wifiswitcher.py
-- WifiAuto.bat
-- WifiAutoVB.vbs
-- Autoschedule.bat
-
-3. Make sure Python is installed and in your system PATH
-   - Download from python.org if needed
-   - During installation, check "Add Python to PATH"
-
-4. Test the installation:
-```bash
-python Wifiswitcher.py
-```
-
-## Important Path Setup
-1. Ensure Python is added to System PATH during installation
-2. All scripts must be in the same folder
-3. Run scripts from within their folder
-
-## Usage
-
-### Simple Method
-1. Double-click `WifiAuto.bat` to run with console
-2. Double-click `WifiAutoVB.vbs` to run silently
-
-### Automatic Schedule
-1. Right-click `Autoschedule.bat`
-2. Select "Run as administrator"
-3. Task will run every 10 minutes
+## Manual Usage
+- **Run Once**: Double-click `WifiAuto.bat`.
+- **Run Silently**: Double-click `WifiAutoVB.vbs`.
 
 ## Configuration
-In `Wifiswitcher.py`, adjust the minimum signal strength difference required for switching:
+In `Wifiswitcher.py`, you can adjust the sensitivity:
 ```python
-MIN_SIGNAL_STRENGTH_DIFFERENCE_FOR_SWITCHING = 5  # Change as needed
+MIN_SIGNAL_STRENGTH_DIFFERENCE_FOR_SWITCHING = 5  # Difference in % required to trigger a switch
 ```
 
-## Sample Output
-```
--------------------Wi-Fi Auto Switcher------------------
+## Logs & Troubleshooting
+The script automatically writes to `wifi_switcher.log` in the same directory. Check this file to see switching history or errors.
 
-Currently Available Saved Networks: 2
-HomeNetwork: 85%
-OfficeWiFi: 70%
-
-Current network before switch: HomeNetwork, Signal strength: 85%
-No stronger network found.
-Current network after switch: HomeNetwork, Signal strength: 85%
-```
-
-## Troubleshooting
-
-### Common Issues
-1. **Permission Denied**
-   - Run scripts as Administrator
-   - Ensure Python has network access permissions
-
-2. **Path Errors**
-   - Verify Python path in all script files
-   - Check script locations match paths in batch files
-
-3. **Task Scheduler Issues**
-   - Confirm task is running with highest privileges
-   - Verify user account has appropriate permissions
-
-### Logging
-Enable basic logging by redirecting output:
-```bat
-python Wifiswitcher.py > wifi_log.txt 2>&1
-```
-
-## Security Notes
-- Scripts require administrator privileges for network operations
-- All networks must be pre-saved in Windows
-- No password handling or storage implemented
+**Common Issues:**
+- **Access Denied**: The script requires Admin rights to switch networks. The scheduled task handles this automatically with "Highest Privileges".
+- **No Switching**: Ensure you have actually connected to the other stronger networks before (they must be "Saved Profiles").
 
 ## Limitations
-- Windows-only support
-- Requires saved network profiles
-- No GUI interface
-- Minimal error handling
+- Windows-only.
+- No GUI (runs in background).
+
 
 ## Contributing
 Feel free to submit issues and enhancement requests.
